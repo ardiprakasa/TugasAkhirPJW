@@ -44,10 +44,10 @@ public class MainActivity extends ActionBarActivity {
 
     String myJSON;
 
-    private static final String TAG_RESULTS="result";
+    private static final String TAG_RESULTS = "result";
     private static final String TAG_ID = "id";
     private static final String TAG_NAME = "name";
-    private static final String TAG_ADD ="address";
+    private static final String TAG_ADD = "address";
 
     JSONArray peoples = null;
 
@@ -64,12 +64,12 @@ public class MainActivity extends ActionBarActivity {
         editTextAdd = (EditText) findViewById(R.id.editTextAddress);
 
         list = (ListView) findViewById(R.id.listView);
-        personList = new ArrayList<HashMap<String,String>>();
+        personList = new ArrayList<HashMap<String, String>>();
         getData();
 
     }
 
-    public void insert(View view){
+    public void insert(View view) {
 
         String name = editTextName.getText().toString();
         String add = editTextAdd.getText().toString();
@@ -82,7 +82,7 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
-    protected void insertToDatabase(String name, String add){
+    protected void insertToDatabase(String name, String add) {
         class SendPostReqAsyncTask extends AsyncTask<String, Void, String> {
             @Override
             protected String doInBackground(String... params) {
@@ -116,26 +116,125 @@ public class MainActivity extends ActionBarActivity {
                 return "success";
             }
 
+            @Override
+            protected void onPostExecute(String result) {
+                super.onPostExecute(result);
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+                Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
+                TextView textViewResult = (TextView) findViewById(R.id.textViewResult);
+                textViewResult.setText("Inserted");
+
+            }
+        }
+        SendPostReqAsyncTask sendPostReqAsyncTask = new SendPostReqAsyncTask();
+        sendPostReqAsyncTask.execute(name, add);
+
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+    private void getData() {
+                class GetDataJSON extends AsyncTask<String, Void, String>{
+
+                    @Override
+                    protected String doInBackground(String... params) {
+                        DefaultHttpClient httpclient = new DefaultHttpClient(new BasicHttpParams());
+                        HttpPost httppost = new HttpPost("http://tespjw.esy.es/get-data.php");
+
+                        // Depends on your web service
+                        httppost.setHeader("Content-type", "application/json");
+
+                        InputStream inputStream = null;
+                        String result = null;
+                        try {
+                            HttpResponse response = httpclient.execute(httppost);
+                            HttpEntity entity = response.getEntity();
+
+                            inputStream = entity.getContent();
+                            // json is UTF-8 by default
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"), 8);
+                            StringBuilder sb = new StringBuilder();
+
+                            String line = null;
+                            while ((line = reader.readLine()) != null)
+                            {
+                                sb.append(line + "\n");
+                            }
+                            result = sb.toString();
+                        } catch (Exception e) {
+                            // Oops
+                        }
+                        finally {
+                            try{if(inputStream != null)inputStream.close();}catch(Exception squish){}
+                        }
+                        return result;
+                    }
+
+                    @Override
+                    protected void onPostExecute(String result){
+                        myJSON=result;
+                        showList();
+                    }
+                }
+                GetDataJSON g = new GetDataJSON();
+                g.execute();
+            }
+
+            private void showList() {
+                try {
+                    JSONObject jsonObj = new JSONObject(myJSON);
+                    peoples = jsonObj.getJSONArray(TAG_RESULTS);
+
+                    for(int i=0;i<peoples.length();i++){
+                        JSONObject c = peoples.getJSONObject(i);
+                        String id = c.getString(TAG_ID);
+                        String name = c.getString(TAG_NAME);
+                        String address = c.getString(TAG_ADD);
+
+                        HashMap<String,String> persons = new HashMap<String,String>();
+
+                        persons.put(TAG_ID,id);
+                        persons.put(TAG_NAME,name);
+                        persons.put(TAG_ADD,address);
+
+                        personList.add(persons);
+                    }
+
+                    ListAdapter adapter = new SimpleAdapter(
+                            MainActivity.this, personList, R.layout.list_item,
+                            new String[]{TAG_ID,TAG_NAME,TAG_ADD},
+                            new int[]{R.id.id, R.id.name, R.id.address}
+                    );
+
+                    list.setAdapter(adapter);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+
+            @Override
+            public boolean onCreateOptionsMenu(Menu menu) {
+                // Inflate the menu; this adds items to the action bar if it is present.
+                getMenuInflater().inflate(R.menu.menu_main, menu);
+                return true;
+            }
+
+            @Override
+            public boolean onOptionsItemSelected(MenuItem item) {
+                // Handle action bar item clicks here. The action bar will
+                // automatically handle clicks on the Home/Up button, so long
+                // as you specify a parent activity in AndroidManifest.xml.
+                int id = item.getItemId();
+
+                //noinspection SimplifiableIfStatement
+                if (id == R.id.action_settings) {
+                    return true;
+                }
+
+                return super.onOptionsItemSelected(item);
+            }
         }
-
-        return super.onOptionsItemSelected(item);
     }
 }
