@@ -6,8 +6,8 @@
   $con = mysqli_connect(HOST,USER,PASS,DB);
   $name = $_POST['name'];
   $address = $_POST['address'];
-  $nim = $_POST['nim']
-  $sql = "INSERT INTO `u260115757_db`.`person` (`id`, `name`, `address`, 'nim') VALUES (NULL,'$name','$address', '$nim');";
+  $nim = $_POST['nim'];
+  $sql = "INSERT INTO `u260115757_db`.`person` (`id`, `name`, `address`, `nim`) VALUES (NULL,'$name','$address', '$nim');";
   if(mysqli_query($con,$sql)){
     echo 'success';
   }
