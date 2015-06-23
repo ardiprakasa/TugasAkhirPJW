@@ -23,13 +23,22 @@
         android:layout_below="@+id/editTextName"
         android:hint="Alamat" />
 
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editTextNim"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/editTextAddress"
+        android:hint="Nim" />
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Insert"
         android:onClick="insert"
         android:id="@+id/button"
-        android:layout_below="@+id/editTextAddress"
+        android:layout_below="@+id/editTextNim"
         android:layout_centerHorizontal="true" />
 
     <TextView

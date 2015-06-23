@@ -40,6 +40,7 @@ public class MainActivity extends ActionBarActivity {
 
     private EditText editTextName;
     private EditText editTextAdd;
+    private EditText editTextNim;
 
 
     String myJSON;
@@ -48,6 +49,7 @@ public class MainActivity extends ActionBarActivity {
     private static final String TAG_ID = "id";
     private static final String TAG_NAME = "name";
     private static final String TAG_ADD = "address";
+    private static final String Tag_NIM = "nim";
 
     JSONArray peoples = null;
 
@@ -62,6 +64,7 @@ public class MainActivity extends ActionBarActivity {
 
         editTextName = (EditText) findViewById(R.id.editTextName);
         editTextAdd = (EditText) findViewById(R.id.editTextAddress);
+        editTextNim = (EditText) findViewById(R.id.editTextNim);
 
         list = (ListView) findViewById(R.id.listView);
         personList = new ArrayList<HashMap<String, String>>();
@@ -73,8 +76,9 @@ public class MainActivity extends ActionBarActivity {
 
         String name = editTextName.getText().toString();
         String add = editTextAdd.getText().toString();
+        String nim = editTextNim.getText().toString();
 
-        insertToDatabase(name, add);
+        insertToDatabase(name, add, nim);
         personList.clear();
         list.setAdapter(null);
 
@@ -82,21 +86,24 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
-    protected void insertToDatabase(String name, String add) {
+    protected void insertToDatabase(String name, String add, String nim) {
         class SendPostReqAsyncTask extends AsyncTask<String, Void, String> {
             @Override
             protected String doInBackground(String... params) {
 
                 String paramUsername = params[0];
                 String paramAddress = params[1];
+                String paramNim = params[2];
 
 
                 String name = editTextName.getText().toString();
                 String add = editTextAdd.getText().toString();
+                String nim = editTextNim.getText().toString();
 
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
                 nameValuePairs.add(new BasicNameValuePair("name", name));
                 nameValuePairs.add(new BasicNameValuePair("address", add));
+                nameValuePairs.add(new BasicNameValuePair("nim", nim));
 
                 try {
                     HttpClient httpClient = new DefaultHttpClient();
@@ -127,7 +134,7 @@ public class MainActivity extends ActionBarActivity {
             }
         }
         SendPostReqAsyncTask sendPostReqAsyncTask = new SendPostReqAsyncTask();
-        sendPostReqAsyncTask.execute(name, add);
+        sendPostReqAsyncTask.execute(name, add, nim);
 
     }
 
@@ -189,20 +196,22 @@ public class MainActivity extends ActionBarActivity {
                         String id = c.getString(TAG_ID);
                         String name = c.getString(TAG_NAME);
                         String address = c.getString(TAG_ADD);
+                        String nim = c.getString(Tag_NIM);
 
                         HashMap<String,String> persons = new HashMap<String,String>();
 
                         persons.put(TAG_ID,id);
                         persons.put(TAG_NAME,name);
                         persons.put(TAG_ADD,address);
+                        persons.put(Tag_NIM,nim);
 
                         personList.add(persons);
                     }
 
                     ListAdapter adapter = new SimpleAdapter(
                             MainActivity.this, personList, R.layout.list_item,
-                            new String[]{TAG_ID,TAG_NAME,TAG_ADD},
-                            new int[]{R.id.id, R.id.name, R.id.address}
+                            new String[]{TAG_ID,TAG_NAME,TAG_ADD, Tag_NIM},
+                            new int[]{R.id.id, R.id.name, R.id.address, R.id.nim}
                     );
 
                     list.setAdapter(adapter);
