@@ -1523,11 +1523,13 @@ containing a value of this type.
         public static final int action_mode_bar=0x7f0c003d;
         public static final int action_mode_bar_stub=0x7f0c003c;
         public static final int action_mode_close_button=0x7f0c0025;
-        public static final int action_settings=0x7f0c004f;
+        public static final int action_settings=0x7f0c0057;
         public static final int activity_chooser_view_content=0x7f0c0026;
+        public static final int address=0x7f0c0056;
         public static final int alertTitle=0x7f0c0030;
         public static final int always=0x7f0c0016;
         public static final int beginning=0x7f0c0013;
+        public static final int button=0x7f0c0052;
         public static final int buttonPanel=0x7f0c0036;
         public static final int checkbox=0x7f0c0038;
         public static final int collapseActionView=0x7f0c0017;
@@ -1539,6 +1541,8 @@ containing a value of this type.
         public static final int dialog=0x7f0c001b;
         public static final int disableHome=0x7f0c000c;
         public static final int dropdown=0x7f0c001c;
+        public static final int editTextAddress=0x7f0c0051;
+        public static final int editTextName=0x7f0c004f;
         public static final int edit_query=0x7f0c0042;
         public static final int end=0x7f0c0014;
         public static final int expand_activities_button=0x7f0c0027;
@@ -1546,12 +1550,15 @@ containing a value of this type.
         public static final int home=0x7f0c0004;
         public static final int homeAsUp=0x7f0c000d;
         public static final int icon=0x7f0c002b;
+        public static final int id=0x7f0c0054;
         public static final int ifRoom=0x7f0c0018;
         public static final int image=0x7f0c0028;
         public static final int listMode=0x7f0c0009;
+        public static final int listView=0x7f0c0053;
         public static final int list_item=0x7f0c002a;
         public static final int middle=0x7f0c0015;
         public static final int multiply=0x7f0c001e;
+        public static final int name=0x7f0c0055;
         public static final int never=0x7f0c0019;
         public static final int none=0x7f0c000e;
         public static final int normal=0x7f0c000a;
@@ -1583,6 +1590,7 @@ containing a value of this type.
         public static final int submit_area=0x7f0c004b;
         public static final int tabMode=0x7f0c000b;
         public static final int textSpacerNoButtons=0x7f0c0033;
+        public static final int textViewResult=0x7f0c0050;
         public static final int title=0x7f0c002c;
         public static final int title_template=0x7f0c002f;
         public static final int topPanel=0x7f0c002e;
@@ -1623,10 +1631,11 @@ containing a value of this type.
         public static final int abc_select_dialog_material=0x7f040017;
         public static final int abc_simple_dropdown_hint=0x7f040018;
         public static final int activity_main=0x7f040019;
-        public static final int select_dialog_item_material=0x7f04001a;
-        public static final int select_dialog_multichoice_material=0x7f04001b;
-        public static final int select_dialog_singlechoice_material=0x7f04001c;
-        public static final int support_simple_spinner_dropdown_item=0x7f04001d;
+        public static final int list_item=0x7f04001a;
+        public static final int select_dialog_item_material=0x7f04001b;
+        public static final int select_dialog_multichoice_material=0x7f04001c;
+        public static final int select_dialog_singlechoice_material=0x7f04001d;
+        public static final int support_simple_spinner_dropdown_item=0x7f04001e;
     }
     public static final class menu {
         public static final int menu_main=0x7f0d0000;
