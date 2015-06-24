@@ -58,6 +58,9 @@ public class MainActivity extends ActionBarActivity {
     ListAdapter adapter;
     ListView list;
     String ids;
+    String nama;
+    String alamat;
+    String ninduk;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,10 +79,17 @@ public class MainActivity extends ActionBarActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 HashMap<String, Object> obj = (HashMap<String, Object>) adapter.getItem(position);
                 ids = (String) obj.get("id");
+                nama = (String) obj.get("name");
+                alamat = (String) obj.get("address");
+                ninduk = (String) obj.get("nim");
                 Toast.makeText(getApplicationContext(), ids, Toast.LENGTH_LONG).show();
+                editTextName.setText(nama.toString());
+                editTextAdd.setText(alamat.toString());
+                editTextNim.setText(ninduk.toString());
             }
         });
     }
+
 
     public void insert(View view) {
 
@@ -104,6 +114,66 @@ public class MainActivity extends ActionBarActivity {
         list.setAdapter(null);
 
         getData();
+
+    }
+
+    public void update(View view) {
+
+        String nama1 = editTextName.getText().toString();
+        String add1 = editTextAdd.getText().toString();
+        String nim1 = editTextNim.getText().toString();
+
+        updateToDatabase(nama1, add1, nim1,ids);
+        personList.clear();
+        list.setAdapter(null);
+
+        getData();
+
+    }
+
+
+    protected void updateToDatabase(final String a, final String b, final String c, final String idz) {
+        class SendPostReqAsyncTask extends AsyncTask<String, Void, String> {
+            @Override
+            protected String doInBackground(String... params) {
+
+
+                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+                nameValuePairs.add(new BasicNameValuePair("name", a));
+                nameValuePairs.add(new BasicNameValuePair("address", b));
+                nameValuePairs.add(new BasicNameValuePair("nim", c));
+                nameValuePairs.add(new BasicNameValuePair("id", idz));
+
+                try {
+                    HttpClient httpClient = new DefaultHttpClient();
+                    HttpPost httpPost = new HttpPost("http://tespjw.esy.es/update.php");
+                    httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+                    HttpResponse response = httpClient.execute(httpPost);
+
+                    HttpEntity entity = response.getEntity();
+
+
+                } catch (ClientProtocolException e) {
+
+                } catch (IOException e) {
+
+                }
+                return "success";
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                super.onPostExecute(result);
+
+                Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
+//                TextView textViewResult = (TextView) findViewById(R.id.textViewResult);
+//                textViewResult.setText("deleted");
+
+            }
+        }
+        SendPostReqAsyncTask sendPostReqAsyncTask = new SendPostReqAsyncTask();
+        sendPostReqAsyncTask.execute(nama, alamat, ninduk);
 
     }
 
