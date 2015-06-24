@@ -39,10 +39,7 @@
         android:onClick="insert"
         android:id="@+id/button"
         android:layout_below="@+id/editTextNim"
-        android:layout_toRightOf="@+id/textViewResult"
-        android:layout_toEndOf="@+id/textViewResult"
-        android:layout_marginLeft="68dp"
-        android:layout_marginStart="68dp" />
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -63,11 +60,19 @@
         android:layout_height="wrap_content"
         android:text="delete"
         android:id="@+id/button2"
-        android:layout_above="@+id/listView"
-        android:layout_toRightOf="@+id/button"
-        android:layout_marginLeft="41dp"
-        android:layout_marginStart="41dp"
-        android:onClick="deleteList" />
+        android:onClick="deleteList"
+        android:layout_below="@+id/editTextNim"
+        android:layout_alignRight="@+id/editTextNim"
+        android:layout_alignEnd="@+id/editTextNim" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Update"
+        android:id="@+id/button3"
+        android:layout_below="@+id/editTextNim"
+        android:layout_toRightOf="@+id/textViewResult"
+        android:onClick="update" />
 
 </RelativeLayout>
 <!-- From: file:/C:/Users/TOSHIBA/PJW_FORK/app/src/main/res/layout/activity_main.xml -->
