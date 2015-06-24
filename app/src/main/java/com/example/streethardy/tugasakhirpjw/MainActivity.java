@@ -1,11 +1,12 @@
 package com.example.streethardy.tugasakhirpjw;
 
 import android.os.AsyncTask;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -54,9 +55,9 @@ public class MainActivity extends ActionBarActivity {
     JSONArray peoples = null;
 
     ArrayList<HashMap<String, String>> personList;
-
+    ListAdapter adapter;
     ListView list;
-
+    String ids;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +71,14 @@ public class MainActivity extends ActionBarActivity {
         personList = new ArrayList<HashMap<String, String>>();
         getData();
 
+        // listening to single list item on click
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                HashMap<String, Object> obj = (HashMap<String, Object>) adapter.getItem(position);
+                ids = (String) obj.get("id");
+                Toast.makeText(getApplicationContext(), ids, Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     public void insert(View view) {
@@ -83,6 +92,66 @@ public class MainActivity extends ActionBarActivity {
         list.setAdapter(null);
 
         getData();
+
+    }
+
+    public void deleteList(View view) {
+
+//        Toast.makeText(getApplicationContext(), ids, Toast.LENGTH_LONG).show();
+
+        deleteinDatabase(ids);//lu ubah sesuai method delete
+        personList.clear();
+        list.setAdapter(null);
+
+        getData();
+
+    }
+
+    protected void deleteinDatabase(final String idz) {
+        class SendPostReqAsyncTask extends AsyncTask<String, Void, String> {
+            @Override
+            protected String doInBackground(String... params) {
+
+                String paramId = params[0];
+
+
+                String idz = paramId;
+
+
+                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+                nameValuePairs.add(new BasicNameValuePair("id", idz));
+
+
+                try {
+                    HttpClient httpClient = new DefaultHttpClient();
+                    HttpPost httpPost = new HttpPost("http://tespjw.esy.es/delete-db.php");
+                    httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+                    HttpResponse response = httpClient.execute(httpPost);
+
+                    HttpEntity entity = response.getEntity();
+
+
+                } catch (ClientProtocolException e) {
+
+                } catch (IOException e) {
+
+                }
+                return "success";
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                super.onPostExecute(result);
+
+                Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
+//                TextView textViewResult = (TextView) findViewById(R.id.textViewResult);
+//                textViewResult.setText("deleted");
+
+            }
+        }
+        SendPostReqAsyncTask sendPostReqAsyncTask = new SendPostReqAsyncTask();
+        sendPostReqAsyncTask.execute(idz);
 
     }
 
@@ -208,11 +277,13 @@ public class MainActivity extends ActionBarActivity {
                         personList.add(persons);
                     }
 
-                    ListAdapter adapter = new SimpleAdapter(
+                    adapter = new SimpleAdapter(
                             MainActivity.this, personList, R.layout.list_item,
                             new String[]{TAG_ID,TAG_NAME,TAG_ADD, Tag_NIM},
                             new int[]{R.id.id, R.id.name, R.id.address, R.id.nim}
                     );
+
+
 
                     list.setAdapter(adapter);
 

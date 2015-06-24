@@ -416,13 +416,14 @@ int id action_menu_presenter 0x7f0c0003
 int id action_mode_bar 0x7f0c003d
 int id action_mode_bar_stub 0x7f0c003c
 int id action_mode_close_button 0x7f0c0025
-int id action_settings 0x7f0c0059
+int id action_settings 0x7f0c005a
 int id activity_chooser_view_content 0x7f0c0026
-int id address 0x7f0c0057
+int id address 0x7f0c0058
 int id alertTitle 0x7f0c0030
 int id always 0x7f0c0016
 int id beginning 0x7f0c0013
 int id button 0x7f0c0053
+int id button2 0x7f0c0055
 int id buttonPanel 0x7f0c0036
 int id checkbox 0x7f0c0038
 int id collapseActionView 0x7f0c0017
@@ -444,7 +445,7 @@ int id expanded_menu 0x7f0c0037
 int id home 0x7f0c0004
 int id homeAsUp 0x7f0c000d
 int id icon 0x7f0c002b
-int id id 0x7f0c0055
+int id id 0x7f0c0056
 int id ifRoom 0x7f0c0018
 int id image 0x7f0c0028
 int id listMode 0x7f0c0009
@@ -452,9 +453,9 @@ int id listView 0x7f0c0054
 int id list_item 0x7f0c002a
 int id middle 0x7f0c0015
 int id multiply 0x7f0c001e
-int id name 0x7f0c0056
+int id name 0x7f0c0057
 int id never 0x7f0c0019
-int id nim 0x7f0c0058
+int id nim 0x7f0c0059
 int id none 0x7f0c000e
 int id normal 0x7f0c000a
 int id parentPanel 0x7f0c002d
